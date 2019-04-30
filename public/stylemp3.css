@@ -1,0 +1,19 @@
+*{
+    padding:0px;
+    margin:0px;
+}
+
+#btn-download{
+    font-size: 38px;
+    cursor: pointer;
+}
+#titulo-video-lista, #btn-download{
+    height:50%;
+}
+#titulo-video-lista{
+    line-height: 1.8em;
+    max-height: 3.6em;
+    overflow:hidden;
+}
+
+
