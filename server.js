@@ -3,10 +3,25 @@ var path = require('path');
 var ytdl = require('ytdl-core')
 var fs = require('fs');
 var ytPlaylist = require('youtube-playlist')
+var ytThumb = require('youtube-thumbnail')
 
 app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/pesquisar', (req,res) => {
+    var id_playlist = req.query.playlistID
+    const url_playlist = 'https://www.youtube.com/playlist?list=' + id_playlist
+    ytPlaylist(url_playlist, ['id', 'name', 'url'])
+    .then(data => {
+        infoVideos = data.data.playlist
+        infoVideos.forEach(function(videoInfo){
+            urlThumb = ytThumb('https://www.youtube.com/watch?v=' + videoInfo.id).default.url
+            videoInfo.urlthumb = urlThumb
+        })  
+        res.send(infoVideos)
+    })
+})
 
 app.get('/downloadVideo', (req, res) => {
     var id_video = req.query.id_video; 
@@ -19,7 +34,7 @@ app.get('/downloadPlaylist', (req, res) => {
 })
 
 app.listen(3000, function () {
-    console.log('esperando solicitações');
+    console.log('esperando solicitações...');
 });
 
 function baixarPlaylist(id_playlist){
@@ -28,7 +43,7 @@ function baixarPlaylist(id_playlist){
     .then(res => {
         videosURL = res.data.playlist
 
-        videosURL.forEach((videoID) => {
+        videosURL.forEach(videoID => {
             baixarVideo(videoID)
         })
     })
@@ -41,9 +56,9 @@ function baixarVideo(id_video){
     ytdl.getInfo(id_video)
     .then(res => {
         console.log('baixando... ', res.title)
-        fileMp3 = fs.createWriteStream(res.title.toString() + '.mp3')
+        fileMp3 = fs.createWriteStream(res.title + '.mp3')
         stream = ytdl(url_video, {filter: 'audioonly'})
-        stream.pipe(fileMp3);
+        stream.pipe(fileMp3)
     })
     .catch(err => console.log(err))
 }

@@ -2,8 +2,40 @@
     padding:0px;
     margin:0px;
 }
+#btn-pesquisar{
+    color: rgb(3, 170, 3); 
+}
 
-#btn-download{
+#btn-pesquisar:focus{
+    color: white;
+    background-color: rgb(3, 170, 3);
+    transition: 0.25s ease-in-out
+}
+.fas.fa-search{
+    font-size: 20px;  
+}
+
+#btn-download-playlist{
+    border: 4px solid rgb(3, 170, 3);
+    font-weight: 600;
+    color: rgb(3, 170, 3);
+    border-radius: 0;
+}
+
+#btn-download-playlist:focus{
+    color: white;
+    background: rgba(235,232,232,1);
+    background: -moz-linear-gradient(left, rgba(235,232,232,1) 0%, rgba(3,168,3,1) 50%, rgba(235,232,232,1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(235,232,232,1)), color-stop(50%, rgba(3,168,3,1)), color-stop(100%, rgba(235,232,232,1)));
+    background: -webkit-linear-gradient(left, rgba(235,232,232,1) 0%, rgba(3,168,3,1) 50%, rgba(235,232,232,1) 100%);
+    background: -o-linear-gradient(left, rgba(235,232,232,1) 0%, rgba(3,168,3,1) 50%, rgba(235,232,232,1) 100%);
+    background: -ms-linear-gradient(left, rgba(235,232,232,1) 0%, rgba(3,168,3,1) 50%, rgba(235,232,232,1) 100%);
+    background: linear-gradient(to right, rgba(235,232,232,1) 0%, rgba(3,168,3,1) 50%, rgba(235,232,232,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ebe8e8', endColorstr='#ebe8e8', GradientType=1 );
+    transition: 0.25s ease-in-out;
+}
+
+.btn-download{
     font-size: 38px;
     cursor: pointer;
 }
@@ -15,5 +47,3 @@
     max-height: 3.6em;
     overflow:hidden;
 }
-
-
