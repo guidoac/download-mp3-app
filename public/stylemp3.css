@@ -22,7 +22,7 @@
     border-radius: 0;
 }
 
-#btn-download-playlist:focus{
+/* #btn-download-playlist:focus{
     color: white;
     background: rgba(235,232,232,1);
     background: -moz-linear-gradient(left, rgba(235,232,232,1) 0%, rgba(3,168,3,1) 50%, rgba(235,232,232,1) 100%);
@@ -33,7 +33,7 @@
     background: linear-gradient(to right, rgba(235,232,232,1) 0%, rgba(3,168,3,1) 50%, rgba(235,232,232,1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ebe8e8', endColorstr='#ebe8e8', GradientType=1 );
     transition: 0.25s ease-in-out;
-}
+} */
 
 .btn-download{
     font-size: 38px;

@@ -3,7 +3,7 @@ $('#btn-pesquisar').on('click', function () {
     let url_input = $('input')[0].value
     let playlistID = formatarPesquisa(url_input)
     $("#btn-download-playlist").attr("playlist-ID", playlistID)
-    pesquisarPlaylist(playlistID)   
+    pesquisarPlaylist(playlistID)
 })
 
 $("#btn-download-playlist").on('click', function () {
@@ -11,11 +11,12 @@ $("#btn-download-playlist").on('click', function () {
     $.get('/downloadPlaylist', { id_playlist: playlistID })
 })
 
-$(document).on('click','.btn-download', function(){
+$(document).on('click', '.btn-download', function () {
     let id = $(this).attr('video-id')
     $.get('/downloadVideo', { id_video: id });
 })
-$(document).on('click','li', function () {
+
+$(document).on('click', 'li', function () {
     urlVideo = $(this).attr('video-url')
     $('#video-principal').attr('src', urlVideo)
 })
@@ -30,16 +31,15 @@ function formatarPesquisa(urlInput) {
     }
 }
 
-function pesquisarPlaylist(id) {
-    $.get('/pesquisar', { playlistID: id })
-        .then(res => {
-            let id_primeiro_video = res[0].id
-            let url_primeiro_video = 'http://www.youtube.com/embed/' + id_primeiro_video
+async function pesquisarPlaylist(id) {
+    info_playlist = await $.get('/pesquisar', { playlistID: id })
+    info_playlist.forEach(adicionarItemLista);
 
-            $('#video-principal').attr('src', url_primeiro_video)
-            res.forEach(adicionarItemLista);
-        })
+    id_primeiro_video = info_playlist[0].id
+    url_primeiro_video = 'http://www.youtube.com/embed/' + id_primeiro_video
+    $('#video-principal').attr('src', url_primeiro_video)
 }
+
 function adicionarItemLista(item) {
     let titulo_video = item.name;
     let url_thumb = item.urlthumb;
