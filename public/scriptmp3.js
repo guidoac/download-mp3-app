@@ -61,4 +61,3 @@ function adicionarItemLista(item) {
 
     $('ul').append(str_item_lista)
 }
-

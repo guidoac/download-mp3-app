@@ -11,8 +11,10 @@
 
 <body>
     <div id="container-principal" class="container-fluid p-0">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-center sticky-top py-1">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between sticky-top py-1">
+            <div id="btn-ativar-player" class="float-left"><i class="fas fa-play"></i></div>
             <a class="navbar-brand" href="#"><img src="/logoyt.png" alt="Logo YT" width="100" height="40"></a>
+            <div id="div-apenas-para-formatar"class="float-right" style="visibility: hidden"></div>
             <div class="d-flex flex-fill mb-2">
                 <input id='entrada-pesquisar' class="form-control form-control-sm" type="search" placeholder="digite a url">
                 <button id="btn-pesquisar" type="button" class="btn btn-sm ml-3"><i class="fas fa-search"></i></button>
@@ -23,7 +25,9 @@
             <iframe id="video-principal" class="embed-responsive-item"
                 src=""></iframe>
         </div>
-        <ul class="list-group"></ul>
+        <div id="lista">
+            <ul class="list-group"></ul>
+        </div>
     </div>
 </body>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">

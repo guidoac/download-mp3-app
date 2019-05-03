@@ -14,6 +14,13 @@
 .fas.fa-search{
     font-size: 20px;  
 }
+.fas.fa-play{
+    font-size: 24px;
+}
+
+#player{
+    border: 1px solid black;
+}
 
 #btn-download-playlist{
     border: 4px solid rgb(3, 170, 3);
