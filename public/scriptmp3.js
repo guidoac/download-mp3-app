@@ -16,7 +16,7 @@ $(document).on('click', '.btn-download', function () {
     $.get('/downloadVideo', { id_video: id });
 })
 
-$(document).on('click', 'li', function () {
+$(document).on('click','li', function () {
     urlVideo = $(this).attr('video-url')
     $('#video-principal').attr('src', urlVideo)
 })
@@ -35,8 +35,7 @@ async function pesquisarPlaylist(id) {
     info_playlist = await $.get('/pesquisar', { playlistID: id })
     info_playlist.forEach(adicionarItemLista);
 
-    id_primeiro_video = info_playlist[0].id
-    url_primeiro_video = 'http://www.youtube.com/embed/' + id_primeiro_video
+    url_primeiro_video = 'http://www.youtube.com/embed/' + info_playlist[0].id
     $('#video-principal').attr('src', url_primeiro_video)
 }
 

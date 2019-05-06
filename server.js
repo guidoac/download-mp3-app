@@ -51,15 +51,29 @@ async function baixarPlaylist(id_playlist) {
 }
 
 async function baixarVideo(id_video) {
-    let url_video = 'http://www.youtube.com/watch?v=' + id_video;
     if (!fs.existsSync(path.join(__dirname, 'musicas'))) {
             fs.mkdirSync(path.join(__dirname, 'musicas'))
-        }
+    }
     
-    let info_video = await ytdl.getInfo(id_video)   
+    var url_video = 'http://www.youtube.com/watch?v=' + id_video;
+    var stream = ytdl(url_video, { filter: 'audioonly' }) 
+    
+    var info_video = await ytdl.getInfo(url_video)  
     console.log('baixando... ', info_video.title)
+    
+    var regex = /[\?\*\>\<\|\:\*\/\"+]/
+    var nomeArquivo = info_video.title.replace(regex, '') + '.mp3'
+    var fileMp3 = fs.createWriteStream(path.resolve(__dirname, 'musicas',  nomeArquivo))
+    
+    await stream.pipe(fileMp3)
 
-    let fileMp3 = fs.createWriteStream(path.join(__dirname, 'musicas', info_video.title + '.mp3'))
-    stream = ytdl(url_video, { filter: 'audioonly' })
-    stream.pipe(fileMp3)
+    fileMp3.on('finish', () => { 
+        fileMp3.end()
+        console.log('finalizou a musica' + this.baseName) 
+    })
+    fileMp3.on('error', (err) => { 
+        console.log(err) 
+        continue
+    })
+
 }
