@@ -1,3 +1,4 @@
+$('input')[0].value = 'https://www.youtube.com/playlist?list=PLEE-L5Au_XzcTtkFvGmQOAjVPcDVqYw5I'
 $('#btn-pesquisar').on('click', function () {
     $('ul').empty()
     let url_input = $('input')[0].value
@@ -13,7 +14,13 @@ $("#btn-download-playlist").on('click', function () {
 
 $(document).on('click', '.btn-download', function () {
     let id = $(this).attr('video-id')
-    $.get('/downloadVideo', { id_video: id });
+    var filestream = streamSaver.createWriteStream('teste.txt')
+    var writer = filestream.getWriter()
+
+    $.get('/downloadVideo', { id_video: id }, (data) => {
+        writer.write(data); 
+        writer.close()
+    }) /* data.pipe(filestream) */
 })
 
 $(document).on('click','li', function () {

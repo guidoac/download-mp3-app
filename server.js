@@ -19,7 +19,7 @@ app.get('/pesquisar', (req, res) => {
 
 app.get('/downloadVideo', (req, res) => {
     let id_video = req.query.id_video;
-    baixarVideo(id_video)
+    baixarVideo(id_video, res, req.ip)
 })
 
 app.get('/downloadPlaylist', (req, res) => {
@@ -50,13 +50,12 @@ async function baixarPlaylist(id_playlist) {
     id_videos.forEach(videoID => baixarVideo(videoID))
 }
 
-async function baixarVideo(id_video) {
+async function baixarVideo(id_video, res) {
     if (!fs.existsSync(path.join(__dirname, 'musicas'))) {
             fs.mkdirSync(path.join(__dirname, 'musicas'))
     }
     
-    var url_video = 'http://www.youtube.com/watch?v=' + id_video;
-    var stream = ytdl(url_video, { filter: 'audioonly' }) 
+    var url_video = 'http://www.youtube.com/watch?v=' + id_video 
     
     var info_video = await ytdl.getInfo(url_video)  
     console.log('baixando... ', info_video.title)
@@ -65,15 +64,13 @@ async function baixarVideo(id_video) {
     var nomeArquivo = info_video.title.replace(regex, '') + '.mp3'
     var fileMp3 = fs.createWriteStream(path.resolve(__dirname, 'musicas',  nomeArquivo))
     
-    await stream.pipe(fileMp3)
+    ytdl(url_video, { filter: 'audioonly' }).pipe(res)
 
-    fileMp3.on('finish', () => { 
+    /* fileMp3.on('finish', () => { 
         fileMp3.end()
-        console.log('finalizou a musica' + this.baseName) 
+        console.log('finalizou a musica') 
     })
     fileMp3.on('error', (err) => { 
         console.log(err) 
-        continue
-    })
-
+    })*/
 }
