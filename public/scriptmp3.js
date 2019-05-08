@@ -13,14 +13,16 @@ $("#btn-download-playlist").on('click', function () {
 })
 
 $(document).on('click', '.btn-download', function () {
+    var xhr = new XMLHttpRequest()
     let id = $(this).attr('video-id')
-    var filestream = streamSaver.createWriteStream('teste.txt')
-    var writer = filestream.getWriter()
-
-    $.get('/downloadVideo', { id_video: id }, (data) => {
-        writer.write(data); 
-        writer.close()
-    }) /* data.pipe(filestream) */
+    
+    xhr.open('GET', '/downloadVideo?id_video=' + id, true)
+    xhr.onprogress = function () {
+        // salvar o arquivo no cliente aqui dentro
+      }
+    xhr.send()
+    // $.get('/downloadVideo', { id_video: id }, res => console.log(res))
+    
 })
 
 $(document).on('click','li', function () {

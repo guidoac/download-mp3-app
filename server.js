@@ -18,8 +18,10 @@ app.get('/pesquisar', (req, res) => {
 })
 
 app.get('/downloadVideo', (req, res) => {
-    let id_video = req.query.id_video;
-    baixarVideo(id_video, res, req.ip)
+    var id_video = req.query.id_video;
+    var url_video = 'http://www.youtube.com/watch?v=' + id_video
+    ytdl(url_video, { filter: 'audioonly' }).pipe(res)
+    // baixarVideo(id_video, res)
 })
 
 app.get('/downloadPlaylist', (req, res) => {
@@ -50,7 +52,7 @@ async function baixarPlaylist(id_playlist) {
     id_videos.forEach(videoID => baixarVideo(videoID))
 }
 
-async function baixarVideo(id_video, res) {
+/* async function baixarVideo(id_video, res) {
     if (!fs.existsSync(path.join(__dirname, 'musicas'))) {
             fs.mkdirSync(path.join(__dirname, 'musicas'))
     }
@@ -66,11 +68,11 @@ async function baixarVideo(id_video, res) {
     
     ytdl(url_video, { filter: 'audioonly' }).pipe(res)
 
-    /* fileMp3.on('finish', () => { 
+    fileMp3.on('finish', () => { 
         fileMp3.end()
         console.log('finalizou a musica') 
     })
     fileMp3.on('error', (err) => { 
         console.log(err) 
-    })*/
-}
+    })
+} */
