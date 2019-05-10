@@ -1,4 +1,4 @@
-$('input')[0].value = 'https://www.youtube.com/playlist?list=PLEE-L5Au_XzcTtkFvGmQOAjVPcDVqYw5I'
+$('input')[0].value = 'https://www.youtube.com/watch?v=2a8PgqWrc_4&list=PL9tY0BWXOZFvdeHbEJr7Wiztcue35IStT'
 $('#btn-pesquisar').on('click', function () {
     $('ul').empty()
     let url_input = $('input')[0].value
@@ -8,21 +8,9 @@ $('#btn-pesquisar').on('click', function () {
 })
 
 $("#btn-download-playlist").on('click', function () {
-    let playlistID = $(this).attr('playlist-ID')
-    $.get('/downloadPlaylist', { id_playlist: playlistID })
-})
-
-$(document).on('click', '.btn-download', function () {
-    var xhr = new XMLHttpRequest()
-    let id = $(this).attr('video-id')
-    
-    xhr.open('GET', '/downloadVideo?id_video=' + id, true)
-    xhr.onprogress = function () {
-        // salvar o arquivo no cliente aqui dentro
-      }
-    xhr.send()
-    // $.get('/downloadVideo', { id_video: id }, res => console.log(res))
-    
+    $('.btn-download').each((index, elem) => {
+        window.open($(elem).attr('href'))
+    })
 })
 
 $(document).on('click','li', function () {
@@ -62,7 +50,7 @@ function adicionarItemLista(item) {
                 </div>\
                 <div id="coluna-lista-playlist" class="col-7 p-0 text-center">\
                     <div id="titulo-video-lista">' + titulo_video + '</div>\
-                    <div class="btn-download" video-id=' + id_video + '><i class="far fa-arrow-alt-circle-down"></i></div>\
+                    <a href=downloadVideo?id_video=' + id_video + ' target="__blank" class="btn-download" video-id=' + id_video + '><i class="far fa-arrow-alt-circle-down"></i></a>\
                 </div>\
             </div>\
         </li>'

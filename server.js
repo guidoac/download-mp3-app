@@ -18,15 +18,19 @@ app.get('/pesquisar', (req, res) => {
 })
 
 app.get('/downloadVideo', (req, res) => {
-    var id_video = req.query.id_video;
-    var url_video = 'http://www.youtube.com/watch?v=' + id_video
-    ytdl(url_video, { filter: 'audioonly' }).pipe(res)
-    // baixarVideo(id_video, res)
+    var id_video = req.query.id_video; 
+    baixarVideo(id_video, res)
 })
 
 app.get('/downloadPlaylist', (req, res) => {
-    let id_playlist = req.query.id_playlist;
-    baixarPlaylist(id_playlist)
+    var id_playlist = req.query.id_playlist;
+    var url_playlist = 'https://www.youtube.com/playlist?list=' + id_playlist;
+
+    ytPlaylist(url_playlist, 'id')
+    .then(info_playlist => {
+        id_videos = info_playlist.data.playlist
+        id_videos.forEach(videoID => baixarVideo(videoID, res))
+    })
 })
 
 app.listen(3000, function () {
@@ -44,35 +48,16 @@ async function getInfoPlaylist(url_playlist) {
     return infoVideos
 }
 
-async function baixarPlaylist(id_playlist) {
-    const url_playlist = 'https://www.youtube.com/playlist?list=' + id_playlist;
-
-    info_playlist = await ytPlaylist(url_playlist, 'id')
-    id_videos = info_playlist.data.playlist
-    id_videos.forEach(videoID => baixarVideo(videoID))
-}
-
-/* async function baixarVideo(id_video, res) {
-    if (!fs.existsSync(path.join(__dirname, 'musicas'))) {
-            fs.mkdirSync(path.join(__dirname, 'musicas'))
-    }
-    
+async function baixarVideo(id_video, res) {
     var url_video = 'http://www.youtube.com/watch?v=' + id_video 
     
     var info_video = await ytdl.getInfo(url_video)  
     console.log('baixando... ', info_video.title)
     
-    var regex = /[\?\*\>\<\|\:\*\/\"+]/
+    var regex = /[^a-z0-9]/
+    // var regex = /[\?\*\>\<\|\:\*\/\"+]/
     var nomeArquivo = info_video.title.replace(regex, '') + '.mp3'
-    var fileMp3 = fs.createWriteStream(path.resolve(__dirname, 'musicas',  nomeArquivo))
     
+    res.set('content-disposition', 'attachment; filename=' + nomeArquivo);
     ytdl(url_video, { filter: 'audioonly' }).pipe(res)
-
-    fileMp3.on('finish', () => { 
-        fileMp3.end()
-        console.log('finalizou a musica') 
-    })
-    fileMp3.on('error', (err) => { 
-        console.log(err) 
-    })
-} */
+}
